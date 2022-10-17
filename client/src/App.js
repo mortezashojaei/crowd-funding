@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Layout } from "./components/Layout";
+import { Layout, Protected } from "./components";
 import { CreateFund, FundsList, Home } from "./pages";
 
 const router = createBrowserRouter([
@@ -10,11 +9,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/new",
-    element: <CreateFund />,
+    element: (
+      <Protected>
+        <CreateFund />
+      </Protected>
+    ),
   },
   {
     path: "/list",
-    element: <FundsList />,
+    element: (
+      <Protected>
+        <FundsList />
+      </Protected>
+    ),
   },
 ]);
 
