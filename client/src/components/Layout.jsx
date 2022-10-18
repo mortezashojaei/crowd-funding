@@ -25,7 +25,7 @@ export const Layout = ({ children }) => {
             <a href="/new">Create Project</a>
           </li>
           <li>
-            <a href="/list">Fundings List</a>
+            <a href="/list">Projects List</a>
           </li>
         </ul>
       </div>
