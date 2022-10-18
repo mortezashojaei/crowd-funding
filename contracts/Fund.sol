@@ -6,16 +6,20 @@ contract Fund {
     address public OWNER;
     IERC20 FUNDING_TOKEN;
     uint256 public GOAL;
+    uint256 public FUND_SHARE;
+    string public NAME;
     bool public IS_COMPLETED;
     bool public IS_CLAIMED;
     address[] public INVESTORS_LIST;
     mapping(address=>uint) private FUNDINGS_LIST;
     event NewFundRecived(address investor,uint256 value);
 
-    constructor(address _owner,address _tokenAddress,uint256 _goal){
+    constructor(address _owner,address _tokenAddress,string memory _name,uint256 _goal,uint256 _share){
         OWNER = _owner;
         FUNDING_TOKEN = IERC20(_tokenAddress);
         GOAL = _goal;
+        NAME = _name;
+        FUND_SHARE =_share; 
     }
 
     function getTotalFundingAmount() external view returns (uint){
@@ -26,12 +30,12 @@ contract Fund {
         return INVESTORS_LIST;
     }
 
-    function fund(uint256 value) external {
+    function fund() external {
         require(!IS_COMPLETED,"The fund is closed.");
-        FUNDING_TOKEN.transferFrom(msg.sender, address(this), value);
+        FUNDING_TOKEN.transferFrom(msg.sender, address(this), FUND_SHARE);
         INVESTORS_LIST.push(msg.sender);
-        FUNDINGS_LIST[msg.sender] = value;
-        emit NewFundRecived(msg.sender, value);
+        FUNDINGS_LIST[msg.sender] = FUND_SHARE;
+        emit NewFundRecived(msg.sender, FUND_SHARE);
         if(FUNDING_TOKEN.balanceOf(address(this))>=GOAL){
             IS_COMPLETED = true;
         }

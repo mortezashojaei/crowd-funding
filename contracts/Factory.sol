@@ -5,8 +5,8 @@ import "./Fund.sol";
 contract Factory {
     address[] public projects;
 
-    function createProject(address _tokenAddress,uint256 _goal) external{
-        Fund fund = new Fund(msg.sender,_tokenAddress,_goal);
+    function createProject(address _tokenAddress,string memory _name,uint256 _goal,uint256 _share) external{
+        Fund fund = new Fund(msg.sender,_tokenAddress,_name, _goal, _share);
         projects.push(address(fund));
     }
 
