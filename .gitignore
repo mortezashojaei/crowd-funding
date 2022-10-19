@@ -6,3 +6,6 @@ typechain
 
 #Hardhat files
 cache-zk
+cache
+artifacts-zk
+artifacts
