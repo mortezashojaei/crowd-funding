@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { createProject } from "../services";
 
 export const CreateFund = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [fund, setFund] = useState({
     name: null,
     goal: null,
-    unit: null,
+    share: null,
   });
 
   function handler(field) {
@@ -12,18 +14,26 @@ export const CreateFund = () => {
       setFund((f) => ({ ...f, [field]: e.target.value }));
     };
   }
-  const { name, goal, unit } = fund;
-  const canSubmit = name && goal && unit;
+
+  async function handleSubmit() {
+    setIsLoading(true);
+    createProject(fund).finally(() => {
+      setIsLoading(false);
+    });
+  }
+
+  const { name, goal, share } = fund;
+  const canSubmit = name && goal && share;
 
   return (
     <div className="flex flex-col justify-center items-center w-96">
-      <h1 className="text-3xl font-bold  mb-16">Create The Project</h1>
+      <h1 className="text-3xl font-bold  mb-16">Create A Project</h1>
       <input
         value={name}
         onChange={handler("name")}
         type="text"
         placeholder="Project Name"
-        class="input input-bordered input-info w-full mb-4"
+        className="input input-bordered input-info w-full mb-4"
       />
 
       <input
@@ -31,19 +41,25 @@ export const CreateFund = () => {
         onChange={handler("goal")}
         type="number"
         placeholder="Total Funding"
-        class="input input-bordered input-info w-full mb-4"
+        className="input input-bordered input-info w-full mb-4"
       />
 
       <input
-        value={unit}
-        onChange={handler("unit")}
+        value={share}
+        onChange={handler("share")}
         type="number"
-        placeholder="Funding Unit"
-        class="input input-bordered input-info w-full mb-4"
+        placeholder="Funding Share per wallet"
+        className="input input-bordered input-info w-full mb-4"
       />
 
-      <button disabled={!canSubmit} class="btn btn-active btn-accent w-full">
-        Submit
+      <button
+        onClick={handleSubmit}
+        disabled={!canSubmit || isLoading}
+        className={`btn ${
+          isLoading ? "loading" : "btn-active"
+        } btn-accent w-full`}
+      >
+        {isLoading ? "Waiting for transaction" : "Submit"}
       </button>
     </div>
   );

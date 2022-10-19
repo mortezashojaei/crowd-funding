@@ -12,8 +12,18 @@ export const FundAbi = [
         type: "address",
       },
       {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+      {
         internalType: "uint256",
         name: "_goal",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_share",
         type: "uint256",
       },
     ],
@@ -38,6 +48,19 @@ export const FundAbi = [
     ],
     name: "NewFundRecived",
     type: "event",
+  },
+  {
+    inputs: [],
+    name: "FUND_SHARE",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
   },
   {
     inputs: [],
@@ -99,6 +122,19 @@ export const FundAbi = [
   },
   {
     inputs: [],
+    name: "NAME",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "OWNER",
     outputs: [
       {
@@ -118,13 +154,7 @@ export const FundAbi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
-    ],
+    inputs: [],
     name: "fund",
     outputs: [],
     stateMutability: "nonpayable",

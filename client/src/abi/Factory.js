@@ -7,8 +7,18 @@ export const FactoryAbi = [
         type: "address",
       },
       {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+      {
         internalType: "uint256",
         name: "_goal",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_share",
         type: "uint256",
       },
     ],
