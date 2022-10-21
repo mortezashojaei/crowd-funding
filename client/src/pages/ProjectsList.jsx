@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
-import { getProjects } from "../services";
+import { getProjects, invest } from "../services";
 
 export const ProjectsList = () => {
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isInvesting, setIsInvesting] = useState({});
 
   useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  async function fetchProjects() {
     setIsLoading(true);
     getProjects()
       .then((data) => {
@@ -14,7 +19,15 @@ export const ProjectsList = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  }
+
+  function handleInvest(address, share) {
+    setIsInvesting({ ...isInvesting, [address]: true });
+    invest(address, share).then(() => {
+      setIsInvesting({ ...isInvesting, [address]: false });
+      fetchProjects();
+    });
+  }
   return (
     <div className="overflow-x-auto w-256">
       <h1 className="text-3xl font-bold  mb-16">
@@ -33,7 +46,7 @@ export const ProjectsList = () => {
         </thead>
         <tbody>
           {projects.map((project, index) => (
-            <tr>
+            <tr key={project.address}>
               <th>{index + 1}</th>
               <td className="font-medium">{project.name}</td>
               <td className="text-center font-bold">{project.share}</td>
@@ -41,15 +54,21 @@ export const ProjectsList = () => {
                 <div className="flex flex-col justify-center items-center text-purple-600 font-extrabold">
                   <small>{`${project.balance} / ${project.goal}`}</small>
                   <progress
-                    class="progress progress-primary w-24"
+                    className="progress progress-primary w-24"
                     value={project.balance}
                     max={project.goal}
                   ></progress>
                 </div>
               </td>
               <td>
-                <button class="btn btn-active btn-sm btn-accent w-24">
-                  Invest
+                <button
+                  disabled={isInvesting[project.address]}
+                  onClick={() => handleInvest(project.address, project.share)}
+                  className={`btn btn-active btn-sm btn-accent w-32 ${
+                    !!isInvesting[project.address] ? "loading" : ""
+                  }`}
+                >
+                  {isInvesting[project.address] ? "Investing" : "Invest"}
                 </button>
               </td>
             </tr>
@@ -58,7 +77,7 @@ export const ProjectsList = () => {
       </table>
       {isLoading && (
         <div className="flex justify-center w-full mt-12">
-          <progress class="progress w-56 progress-info"></progress>
+          <progress className="progress w-56 progress-info"></progress>
         </div>
       )}
     </div>

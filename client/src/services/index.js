@@ -1,6 +1,6 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { Contract, utils, Web3Provider } from "zksync-web3";
-import { FactoryAbi, FundAbi } from "../abi";
+import { FactoryAbi, FundAbi, ERC20Abi } from "../abi";
 
 const FACTORY_CONTRACT_ADDRESS = "0xeeA62e030331F190481c02D26e078F1785e58944";
 const TOKEN_CONTRACT_ADDRESS = "0xc2927919b5fb0fd5d4558d24517a484c9a68b486";
@@ -55,24 +55,54 @@ export async function getProjectInfo(fund) {
 
 export const createProject = async ({ name, goal, share }) => {
   const Factory = getFactoryContract();
+  const transaction = await Factory.createProject(
+    TOKEN_CONTRACT_ADDRESS,
+    name,
+    goal,
+    share,
+    getTransactionConfig(1)
+  );
+  await transaction
+    .wait()
+    .then(() => {
+      alert("Done!");
+    })
+    .catch((error) => {
+      console.log(error);
+      alert("Error!");
+    });
+};
+
+export const getTransactionConfig = () => {
   const paymasterParams = utils.getPaymasterParams(PAYMASTER_CONTRACT_ADDRESS, {
     type: "ApprovalBased",
     token: TOKEN_CONTRACT_ADDRESS,
     minimalAllowance: ethers.BigNumber.from(1),
     innerInput: new Uint8Array(),
   });
-  const transaction = await Factory.createProject(
-    TOKEN_CONTRACT_ADDRESS,
-    name,
-    goal,
+
+  return {
+    customData: {
+      paymasterParams,
+      ergsPerPubdata: utils.DEFAULT_ERGS_PER_PUBDATA_LIMIT,
+    },
+  };
+};
+
+export const invest = async (address, share) => {
+  const Fund = getFundContract(address);
+  const signer = new Web3Provider(window.ethereum).getSigner();
+  const TokenContract = new Contract(TOKEN_CONTRACT_ADDRESS, ERC20Abi, signer);
+  const Token = TokenContract.connect(signer);
+
+  const approveTrx = await Token.approve(
+    Fund.address,
     share,
-    {
-      customData: {
-        paymasterParams,
-        ergsPerPubdata: utils.DEFAULT_ERGS_PER_PUBDATA_LIMIT,
-      },
-    }
+    getTransactionConfig(1)
   );
+  await approveTrx.wait();
+  console.log(approveTrx);
+  const transaction = await Fund.fund(getTransactionConfig(share + 1));
   await transaction
     .wait()
     .then(() => {

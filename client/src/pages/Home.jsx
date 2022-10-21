@@ -28,7 +28,7 @@ export const Home = () => {
       ) : (
         <button
           onClick={() => handleClick()}
-          class="btn btn-active btn-primary mt-8 mx-auto"
+          className="btn btn-active btn-primary mt-8 mx-auto"
         >
           Connect Wallet
         </button>

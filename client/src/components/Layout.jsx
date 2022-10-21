@@ -16,7 +16,7 @@ export const Layout = ({ children }) => {
       </div>
       <div className="drawer-side  w-80 text-base-content bg-slate-200">
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-        <img class="mask mask-squircle m-auto w-32 h-32" src={Logo} />
+        <img className="mask mask-squircle m-auto w-32 h-32" src={Logo} />
         <ul className="menu p-4 overflow-y-auto">
           <li>
             <a href="/">Home</a>
