@@ -28,7 +28,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <Layout>
-      {window.etherum ? (
+      {window.ethereum ? (
         <RouterProvider router={router} />
       ) : (
         <div>
