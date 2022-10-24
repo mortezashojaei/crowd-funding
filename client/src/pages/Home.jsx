@@ -55,7 +55,7 @@ export const Home = () => {
     if (isConnected) handleClick();
     if (window.ethereum.chainId)
       setChainId(ethers.BigNumber.from(window.ethereum.chainId).toNumber());
-    window.ethereum.on("networkChanged", (id) => {
+    window.ethereum.on("chainChanged", (id) => {
       setChainId(id);
     });
   }, [isConnected]);
