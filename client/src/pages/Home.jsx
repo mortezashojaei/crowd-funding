@@ -9,7 +9,7 @@ export const Home = () => {
   const [isConnected, setIsConnected] = useState(
     () => !!localStorage.getItem("ACCOUNT")
   );
-  const isNetworkSelected = chainId === ZK_SYNC_CHAIN_ID;
+  const isNetworkSelected = String(chainId) === ZK_SYNC_CHAIN_ID;
   async function handleClick() {
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
