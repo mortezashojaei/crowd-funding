@@ -28,7 +28,13 @@ const router = createBrowserRouter([
 function App() {
   return (
     <Layout>
-      <RouterProvider router={router} />
+      {window.etherum ? (
+        <RouterProvider router={router} />
+      ) : (
+        <div>
+          <h1 className="text-bold text-2xl">Please install Metamask first!</h1>
+        </div>
+      )}
     </Layout>
   );
 }
