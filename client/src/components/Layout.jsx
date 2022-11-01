@@ -27,6 +27,9 @@ export const Layout = ({ children }) => {
           <li>
             <a href="/list">Projects List</a>
           </li>
+          <li>
+            <a href="/faucet">Get Free Token!</a>
+          </li>
         </ul>
       </div>
     </div>
