@@ -16,14 +16,20 @@ export const CreateFund = () => {
   }
 
   async function handleSubmit() {
-    setIsLoading(true);
-    createProject(fund)
-      .catch(() => {
-        alert("Project is not created please make sure you have enough Moken!");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    if (fund.name > 1 || fund.share >= 1) {
+      setIsLoading(true);
+      createProject(fund)
+        .catch(() => {
+          alert(
+            "Project is not created please make sure you have enough Moken!"
+          );
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      alert("Use numbers more than 1");
+    }
   }
 
   const { name, goal, share } = fund;
@@ -41,6 +47,7 @@ export const CreateFund = () => {
       />
 
       <input
+        min={1}
         value={goal}
         onChange={handler("goal")}
         type="number"
