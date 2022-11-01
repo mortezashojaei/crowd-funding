@@ -17,9 +17,13 @@ export const CreateFund = () => {
 
   async function handleSubmit() {
     setIsLoading(true);
-    createProject(fund).finally(() => {
-      setIsLoading(false);
-    });
+    createProject(fund)
+      .catch(() => {
+        alert("Project is not created please make sure you have enough Moken!");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   const { name, goal, share } = fund;
