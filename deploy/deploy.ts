@@ -3,7 +3,7 @@ import { Deployer } from "@matterlabs/hardhat-zksync-deploy";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 export default async function (hre: HardhatRuntimeEnvironment) {
-  const wallet = new Wallet(String(process.env.DEPLOYER) || "");
+  const wallet = new Wallet("PRIVATE_KEY");
   console.log("Wallet connecte");
 
   const deployer = new Deployer(hre, wallet);
