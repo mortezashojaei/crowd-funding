@@ -12,7 +12,7 @@ contract Faucet {
 
     function requestToken() external {
         require(!users[msg.sender],"You recieved your faucet");
-        TOKEN.transfer(msg.sender,100);
+        TOKEN.transfer(msg.sender,10**20);
         users[msg.sender] = true;
     }
 }

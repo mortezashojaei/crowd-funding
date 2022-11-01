@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Layout, Protected } from "./components";
-import { CreateFund, ProjectsList, Home } from "./pages";
+import { CreateFund, ProjectsList, Home, Faucet } from "./pages";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +20,14 @@ const router = createBrowserRouter([
     element: (
       <Protected>
         <ProjectsList />
+      </Protected>
+    ),
+  },
+  {
+    path: "/faucet",
+    element: (
+      <Protected>
+        <Faucet />
       </Protected>
     ),
   },

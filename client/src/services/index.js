@@ -1,10 +1,11 @@
 import { BigNumber, ethers } from "ethers";
 import { Contract, utils, Web3Provider } from "zksync-web3";
-import { FactoryAbi, FundAbi, ERC20Abi } from "../abi";
+import { FactoryAbi, FundAbi, ERC20Abi, FaucetAbi } from "../abi";
 
 const FACTORY_CONTRACT_ADDRESS = "0x361da25C73B72F11FeA83eE5968B934D59833577";
 const TOKEN_CONTRACT_ADDRESS = "0x48B178cA848465C37EdB666A4ea6c38760731e0d";
 const PAYMASTER_CONTRACT_ADDRESS = "0x29aE68C8822b3cE1a83dD17e4A1C31E9Db935466";
+const FAUCET_CONTRACT_ADDRESS = "0xdb88c1cbd279087beb2c53347C7794964Cc5dD51";
 
 export const getFactoryContract = () => {
   const signer = new Web3Provider(window.ethereum).getSigner();
@@ -16,6 +17,12 @@ export const getFundContract = (address) => {
   const signer = new Web3Provider(window.ethereum).getSigner();
   const Fund = new Contract(address, FundAbi, signer);
   return Fund;
+};
+
+export const getFaucetContract = () => {
+  const signer = new Web3Provider(window.ethereum).getSigner();
+  const Factory = new Contract(FAUCET_CONTRACT_ADDRESS, FaucetAbi, signer);
+  return Factory;
 };
 
 export const getProjectsAdresses = async () => {
@@ -116,4 +123,9 @@ export const invest = async (address, share) => {
       console.log(error);
       alert("Error!");
     });
+};
+
+export const requestToken = async () => {
+  const Contract = getFaucetContract();
+  return Contract.requestToken();
 };
