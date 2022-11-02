@@ -66,8 +66,8 @@ export const createProject = async ({ name, goal, share }) => {
     TOKEN_CONTRACT_ADDRESS,
     name,
     goal,
-    share,
-    getTransactionConfig(1)
+    share
+    // getTransactionConfig()
   );
   await transaction
     .wait()
