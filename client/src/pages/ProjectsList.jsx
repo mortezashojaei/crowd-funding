@@ -61,15 +61,23 @@ export const ProjectsList = () => {
                 </div>
               </td>
               <td>
-                <button
-                  disabled={isInvesting[project.address]}
-                  onClick={() => handleInvest(project.address, project.share)}
-                  className={`btn btn-active btn-sm btn-accent w-32 ${
-                    !!isInvesting[project.address] ? "loading" : ""
-                  }`}
-                >
-                  {isInvesting[project.address] ? "Investing" : "Invest"}
-                </button>
+                {project.balance._hex === project.goal._hex ? (
+                  <button
+                    className={`btn btn-info btn-sm btn-accent w-32 cursor-not-allowed`}
+                  >
+                    Closed
+                  </button>
+                ) : (
+                  <button
+                    disabled={isInvesting[project.address]}
+                    onClick={() => handleInvest(project.address, project.share)}
+                    className={`btn btn-active btn-sm btn-accent w-32 ${
+                      !!isInvesting[project.address] ? "loading" : ""
+                    }`}
+                  >
+                    {isInvesting[project.address] ? "Investing" : "Invest"}
+                  </button>
+                )}
               </td>
             </tr>
           ))}
