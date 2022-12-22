@@ -1,10 +1,10 @@
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
 import { Contract, utils, Web3Provider } from "zksync-web3";
 import { FactoryAbi, FundAbi, ERC20Abi, FaucetAbi } from "../abi";
 
 const FACTORY_CONTRACT_ADDRESS = "0x361da25C73B72F11FeA83eE5968B934D59833577";
 const TOKEN_CONTRACT_ADDRESS = "0x48B178cA848465C37EdB666A4ea6c38760731e0d";
-const PAYMASTER_CONTRACT_ADDRESS = "0x29aE68C8822b3cE1a83dD17e4A1C31E9Db935466";
+const PAYMASTER_CONTRACT_ADDRESS = "0x19E44FabB826Dd5f27fE187043F86bF77af676A7";
 const FAUCET_CONTRACT_ADDRESS = "0xdb88c1cbd279087beb2c53347C7794964Cc5dD51";
 
 export const getFactoryContract = () => {
@@ -66,8 +66,8 @@ export const createProject = async ({ name, goal, share }) => {
     TOKEN_CONTRACT_ADDRESS,
     name,
     goal,
-    share
-    // getTransactionConfig()
+    share,
+    getTransactionConfig()
   );
   await transaction
     .wait()
@@ -104,15 +104,12 @@ export const invest = async (address, share) => {
 
   const approveTrx = await Token.approve(
     Fund.address,
-    share
-    // getTransactionConfig(1 + share)
+    share,
+    getTransactionConfig()
   );
   await approveTrx.wait();
   console.log(approveTrx);
-  const transaction = await Fund
-    .fund
-    // getTransactionConfig()
-    ();
+  const transaction = await Fund.fund(getTransactionConfig());
   console.log(transaction);
   await transaction
     .wait()
